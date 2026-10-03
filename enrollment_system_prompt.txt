@@ -1,0 +1,2653 @@
+# Student Enrollment and Confirmation Checklist System — Development Prompt
+
+Create a complete **Student Enrollment and Confirmation Checklist System** based on the workflow, user roles, business rules, and database requirements below.
+
+The system is intended for a school/university enrollment process where students must personally visit the **Department, Registrar, Accounting, Clinic, and Security Office** to complete their enrollment/confirmation checklist.
+
+The system must support **new students, regular students, irregular students, shifters, returnees, and transferees**.
+
+---
+
+# 1. Technology Requirements
+
+Use only the following technologies:
+
+* **HTML5**
+* **CSS3**
+* **JavaScript**
+* **PHP**
+* **MySQL**
+* **Bootstrap** for layout and responsive UI
+* **Font Awesome** for icons
+* **Laragon** as the local development environment
+
+Do not use React, Vue, Angular, Laravel, Tailwind, Node.js, or other frontend/backend frameworks.
+
+Use standard PHP with MySQL.
+
+The system should run locally in Laragon using a structure such as:
+
+```text
+http://localhost/system-name/
+```
+
+Use MySQL as the database.
+
+---
+
+# 2. Keep the Interface Simple
+
+Do NOT create an overly complicated or futuristic UI.
+
+Use a simple, clean, professional Bootstrap interface.
+
+Use:
+
+* Bootstrap navbar/sidebar
+* Bootstrap cards
+* Bootstrap tables
+* Bootstrap forms
+* Bootstrap modals
+* Bootstrap alerts
+* Bootstrap badges
+* Bootstrap buttons
+* Bootstrap pagination
+* Font Awesome icons
+
+Do not create unnecessary animations or complicated visual effects.
+
+The primary focus is the **functionality, workflow, database relationships, validation, and role-based access**.
+
+---
+
+# 3. Users of the System
+
+There are exactly **7 user roles**:
+
+1. Student
+2. Department
+3. Registrar
+4. Accounting
+5. Clinic
+6. Security Office
+7. Admin
+
+Implement role-based authentication and authorization.
+
+Each role must only access the pages and functions assigned to that role.
+
+Users must be redirected to the appropriate dashboard after login.
+
+---
+
+# 4. Student Status
+
+The system must support the following student statuses:
+
+* New Student
+* Regular
+* Irregular
+* Shifter
+* Returnee
+* Transferee
+
+The status determines how the student's enrollment process works.
+
+---
+
+# 5. Main Enrollment Rule
+
+A student can only have an active/available **Confirmation Checklist** when the student's enrollment flow is:
+
+* `Pending`
+* `Approved`
+
+The checklist must track the student's progress through:
+
+1. Department
+2. Registrar
+3. Accounting
+4. Clinic
+5. Security Office
+
+The student must manually process the required steps with each office.
+
+The system records whether each step is:
+
+* Pending
+* In Progress
+* Completed
+* Rejected, when applicable
+
+The student dashboard must clearly show which process has already been completed and which office still needs to be visited.
+
+---
+
+# 6. Student Registration Flow
+
+## New Students
+
+New students must go to the **Department** where they want to enroll.
+
+The Department creates or assists in creating the student's account.
+
+The Department enters information such as:
+
+* Student personal information
+* PSA information
+* Birth information
+* Address
+* Contact information
+* Program
+* Student status
+* Previous educational information, if applicable
+* Required documents
+
+The Department reviews and approves the student's information.
+
+Once approved, the student can continue with the enrollment process.
+
+---
+
+# 7. Existing Students
+
+Students who already have records in the system should not have their previous academic information recreated.
+
+The system should retrieve their previous information.
+
+Existing student records may include:
+
+* Previous school year
+* Previous program
+* Previous curriculum
+* Previous subjects
+* Grades
+* Passed subjects
+* Failed subjects
+* Completed subjects
+* Previous enrollment records
+
+The Department can update student details when necessary.
+
+The Department must also be able to print previous grades when requested by the student.
+
+---
+
+# 8. Regular Student Flow
+
+For regular students:
+
+1. Retrieve the student's previous school year/program record.
+2. Retrieve their previous grades.
+3. Determine the curriculum currently applicable to the student.
+4. Determine the subjects/units that should be taken for the current semester.
+5. Generate the student's study load.
+6. Generate the subject load.
+7. Assign the student to the appropriate block.
+8. Assign the corresponding schedule.
+
+The system should prevent already completed subjects from being incorrectly added again.
+
+---
+
+# 9. Irregular Student Flow
+
+For irregular students:
+
+1. Retrieve the student's previous academic record.
+2. Retrieve completed/passed subjects.
+3. Retrieve failed subjects.
+4. Determine the remaining subjects required by the curriculum.
+5. Only display subjects that the student still needs to complete.
+6. Subjects already passed must be credited.
+7. Failed subjects must remain available for enrollment when applicable.
+8. Generate the student's study load based on the remaining required subjects.
+9. Assign available schedules.
+
+The system must not add already completed subjects to the student's current study load unless they are explicitly required again.
+
+---
+
+# 10. Shifter Student Flow
+
+For shifters:
+
+1. Student selects the new program.
+2. Student goes to the Department of the new program.
+3. Department reviews the student's previous program.
+4. Retrieve the student's previous grades.
+5. Identify subjects that can be credited to the new program.
+6. Apply equivalent subjects where applicable.
+7. Minor subjects that are common between programs should be considered for crediting.
+8. Determine the remaining subjects required by the new program.
+9. Generate the study load based on credited and remaining subjects.
+10. Continue to Registrar processing.
+
+The system should maintain the student's previous program and new program.
+
+---
+
+# 11. Returnee Student Flow
+
+For returnees:
+
+1. Retrieve the student's previous school year/program.
+2. Retrieve completed subjects.
+3. Retrieve previous grades.
+4. Determine the curriculum applicable to the student.
+5. Identify subjects already completed.
+6. Identify subjects still required.
+7. Compare the student's completed subjects against the current curriculum.
+8. Only show the subjects the student still needs to take.
+9. Generate the study load.
+10. Continue to Registrar processing.
+
+The system must avoid assigning subjects that the student has already completed.
+
+---
+
+# 12. Transferee Student Flow
+
+Transferees must submit their previous academic records to the Department.
+
+The Department manually enters/reviews information such as:
+
+* Previous school
+* Previous program
+* Previous subjects
+* Grades
+* Diploma
+* Other academic documents
+* PSA/personal information
+* Transfer documents
+
+The Department evaluates the previous subjects.
+
+Only subjects that can be credited to the student's enrolled program curriculum should be credited.
+
+The system must record:
+
+* Original subject
+* Original grade
+* Previous institution
+* Equivalent subject
+* Equivalent unit
+* Whether the subject was credited
+* Reason if not credited
+
+After Department approval, the student continues to Registrar processing.
+
+The system must not automatically credit every previous subject.
+
+---
+
+# 13. Department Dashboard
+
+The Department is responsible for managing student records and initial enrollment processing.
+
+The Department dashboard should allow staff to:
+
+* View students
+* Search students
+* Filter students by status
+* Create student accounts
+* Edit student information
+* View student academic history
+* View previous grades
+* Add previous grades
+* Upload/record required documents
+* Review transferee records
+* Evaluate transferee subjects
+* Approve/reject student registration
+* Process shifters
+* Process returnees
+* Process irregular students
+* Review curriculum requirements
+* Print student previous grades
+* View enrollment status
+* View confirmation checklist status
+
+The Department must be able to search using:
+
+* Student ID
+* Name
+* Program
+* Student status
+* School year
+
+---
+
+# 14. Registrar Dashboard
+
+The Registrar receives students after Department processing.
+
+The Registrar should be able to:
+
+* View approved students
+* Search students
+* Filter by student status
+* View academic history
+* View curriculum
+* View credited subjects
+* View completed subjects
+* View remaining subjects
+* Select subjects/units for enrollment
+* Generate study load
+* Generate subject load
+* Assign blocks
+* Assign schedules
+* View available schedules
+* Assign student ID numbers
+* Confirm Registrar processing
+* Print study load
+* Print subject load
+* View enrollment checklist
+
+For new students and transferees, the Registrar must generate/assign the student's official ID number.
+
+The system should calculate:
+
+* Total enrolled units
+* Number of subjects
+* Required units
+* Credited units
+* Remaining units
+
+---
+
+# 15. Block and Schedule Logic
+
+The system already contains:
+
+* Programs
+* Units/subjects
+* Blocks
+* Schedules
+* Instructors
+* Grades
+
+Create relationships between:
+
+```text
+Program
+   ↓
+Curriculum
+   ↓
+Subject/Unit
+   ↓
+Block
+   ↓
+Schedule
+   ↓
+Instructor
+```
+
+When the Registrar generates a study load, the system should assign appropriate subjects and available schedules.
+
+The system should prevent:
+
+* Duplicate subjects
+* Schedule conflicts
+* Invalid subject assignments
+* Assigning subjects outside the student's curriculum unless explicitly allowed
+* Assigning already completed subjects
+
+---
+
+# 16. Accounting Dashboard
+
+Accounting handles student payments.
+
+Accounting should be able to:
+
+* Search students
+* View student enrollment information
+* View study load
+* View subject load
+* View miscellaneous fees
+* Record payments
+* View payment history
+* Confirm payment
+* Generate receipt
+* Print receipt
+* View unpaid balances
+* View paid balances
+
+When payment is successfully recorded, the system should automatically update the student's checklist.
+
+Example:
+
+```text
+Accounting Payment
+       ↓
+Payment Recorded
+       ↓
+Payment Confirmed
+       ↓
+Checklist = Completed
+```
+
+The receipt should contain:
+
+* Receipt number
+* Student ID
+* Student name
+* Program
+* School year
+* Semester
+* Payment details
+* Amount
+* Date
+* Accounting staff
+
+---
+
+# 17. Clinic Dashboard
+
+The Clinic manages student medical information.
+
+The Clinic should be able to:
+
+* Search students
+* View student information
+* Record medical information
+* Record height
+* Record weight
+* Record medical history
+* Record medical remarks
+* Record medical clearance
+* Update medical records
+* Confirm medical processing
+
+The system should calculate/display basic information such as BMI when height and weight are available.
+
+After the Clinic confirms the medical record:
+
+```text
+Medical Record Completed
+        ↓
+Checklist = Completed
+```
+
+---
+
+# 18. Security Office Dashboard
+
+The Security Office performs the final verification.
+
+Security personnel should be able to search students using:
+
+* Student ID
+* Student name
+
+When searching for a student, Security should be able to see:
+
+* Student information
+* Program
+* Student status
+* Registrar confirmation
+* Study load
+* Subject load
+* Accounting payment confirmation
+* Clinic medical record confirmation
+
+Security should not edit academic or financial records.
+
+Security only validates whether the required processes are complete.
+
+The system should display something similar to:
+
+```text
+Registrar              ✓ Completed
+Accounting             ✓ Completed
+Clinic                 ✓ Completed
+Security Verification  Pending
+```
+
+If all required processes are complete, Security can confirm the student's enrollment.
+
+---
+
+# 19. Final Enrollment Confirmation
+
+A student is considered fully enrolled only when the required offices have completed their processes.
+
+Required sequence:
+
+```text
+Department
+     ↓
+Registrar
+     ↓
+Accounting
+     ↓
+Clinic
+     ↓
+Security Office
+     ↓
+CONFIRMED ENROLLED
+```
+
+The system should not allow Security to confirm a student when required previous processes are incomplete.
+
+After Security confirms the student:
+
+```text
+Enrollment Status = CONFIRMED
+Checklist = COMPLETE
+```
+
+The student dashboard should clearly display:
+
+**Enrollment Confirmed**
+
+---
+
+# 20. Student Dashboard
+
+The Student dashboard should be simple.
+
+The main feature is the **Confirmation Checklist**.
+
+Example:
+
+```text
+CONFIRMATION CHECKLIST
+
+Department
+✓ Completed
+
+Registrar
+✓ Completed
+
+Accounting
+✓ Completed
+
+Clinic
+✓ Completed
+
+Security Office
+⏳ Pending
+```
+
+After completion:
+
+```text
+✓ ENROLLMENT CONFIRMED
+```
+
+The student should also be able to view:
+
+* Confirmation checklist
+* Enrollment status
+* Student information
+* Student ID
+* Program
+* Student status
+* Study load
+* Subject load
+* Schedule
+* Medical records
+* Payment/receipt information
+* Credited subjects
+* Previous grades, when permitted
+
+Students should not be able to edit official academic, financial, medical, or security records.
+
+---
+
+# 21. Admin Dashboard
+
+Admin manages system users/staff.
+
+Admin should be able to:
+
+* View users
+* Add users
+* Edit users
+* Activate/deactivate users
+* Assign roles
+* Reset passwords
+* View system activity
+* View audit logs
+
+Admin can create staff accounts for:
+
+* Registrar
+* Accounting
+* Clinic
+* Security Office
+* Department
+* Other Admin
+
+Admin should not unnecessarily modify student academic records through normal workflows.
+
+---
+
+# 22. Role-Based Access Control
+
+Implement proper permissions.
+
+### Student
+
+Can:
+
+* View own records
+* View checklist
+* View schedule
+* View study load
+* View subject load
+* View medical records
+* View payment/receipt status
+* View enrollment confirmation
+
+Cannot:
+
+* Modify grades
+* Modify curriculum
+* Confirm payment
+* Approve enrollment
+* Modify medical records
+* Confirm security verification
+
+### Department
+
+Can:
+
+* Manage student registration
+* Manage student information
+* Review documents
+* Review previous grades
+* Process new students
+* Process transferees
+* Process shifters
+* Process returnees
+* Review irregular students
+* Approve/reject department processing
+
+### Registrar
+
+Can:
+
+* Process approved students
+* Assign ID numbers
+* Process subjects
+* Generate study loads
+* Generate subject loads
+* Assign blocks
+* Assign schedules
+* Confirm registrar processing
+
+### Accounting
+
+Can:
+
+* View fees
+* Record payments
+* Confirm payments
+* Generate receipts
+
+### Clinic
+
+Can:
+
+* View student information
+* Add/update medical records
+* Add height and weight
+* Confirm medical processing
+
+### Security Office
+
+Can:
+
+* Search students
+* View required confirmations
+* Verify completed processes
+* Confirm final enrollment
+
+### Admin
+
+Can:
+
+* Manage staff accounts
+* Manage system users
+* Assign roles
+* Activate/deactivate accounts
+* View audit logs
+
+---
+
+# 23. Database Requirements — USE THIS EXACT DATABASE
+
+**Do not design a new schema from scratch.** The database already exists and must be used as-is. The database name is **`enrollments`**, it is MySQL 8.4 / InnoDB, `utf8mb4`, and contains 35 tables plus one view (`vw_enrollment_checklist`). All primary keys, foreign keys, ENUM status values, and generated columns (e.g. `clinic.BMI`) shown below are authoritative — build every page, query, and form against these exact table and column names.
+
+Key tables and how they map to the workflow described above:
+
+* `users`, `login`, `staff`, `student`, `student_profile`, `student_type` — accounts, roles, and student master data
+* `department`, `program`, `curriculum`, `curriculum_subject`, `subject`, `instructor`, `section`, `schedule`, `blocking` — academic structure, curriculum, and scheduling
+* `academic_year`, `enrollment`, `enrollment_subject`, `evaluation`, `evaluation_subject`, `student_grades`, `credited_subject` — enrollment, subject load, and grade/credit handling for regular/irregular/shifter/returnee/transferee flows
+* `admission` — Department approval step
+* `payment`, `payment_item` — Accounting step
+* `clinic`, `clearance` — Clinic step (note: `clinic.BMI` is a generated/stored column computed from `HeightCM` and `WeightKG` — do not write to it directly)
+* `security_verification` — Security Office final verification step
+* `id_validation`, `register` — ID issuance/registration support tables
+* `system_log` — audit logging
+* `vw_enrollment_checklist` — a ready-made view that joins `enrollment`, `student`, `admission`, `evaluation`, `payment`, `clinic`, and `security_verification` into a single per-student checklist row (`DepartmentStatus`, `RegistrarStatus`, `AccountingStatus`, `ClinicStatus`, `SecurityStatus`, `OverallStatus`). Use this view to power the Student, Security, and Admin checklist displays instead of re-deriving the status logic in PHP wherever possible.
+
+Full schema (structure only — table definitions, the view, and all foreign key constraints; no demo data) to be used verbatim:
+
+```sql
+-- phpMyAdmin SQL Dump
+-- version 5.2.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost:3306
+-- Generation Time: Sep 15, 2026 at 05:40 PM
+-- Server version: 8.4.3
+-- PHP Version: 8.4.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `enrollments`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `academic_year`
+--
+
+CREATE TABLE `academic_year` (
+  `AcademicYearID` int NOT NULL,
+  `SchoolYear` varchar(9) NOT NULL,
+  `Semester` enum('1st','2nd','Summer') NOT NULL DEFAULT '1st',
+  `IsCurrent` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `academic_year`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admission`
+--
+
+CREATE TABLE `admission` (
+  `AdmissionID` int NOT NULL,
+  `SubmissionDate` date NOT NULL,
+  `ApprovalDate` date NOT NULL,
+  `Status` enum('Pending','Approved','Rejected') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Pending',
+  `Remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `StudentID` int NOT NULL,
+  `StaffID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `blocking`
+--
+
+CREATE TABLE `blocking` (
+  `BlockingID` int NOT NULL,
+  `BlockingDate` date NOT NULL,
+  `EnrollmentID` int NOT NULL,
+  `SectionID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clearance`
+--
+
+CREATE TABLE `clearance` (
+  `ClearanceID` int NOT NULL,
+  `ClearanceDate` date NOT NULL,
+  `Status` enum('Pending','Cleared','Not Cleared') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Pending',
+  `Remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `StudentID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clinic`
+--
+
+CREATE TABLE `clinic` (
+  `ClinicID` int NOT NULL,
+  `CompletionDate` date NOT NULL,
+  `Status` enum('Pending','Completed','Failed') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Pending',
+  `Remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `StudentID` int NOT NULL,
+  `StaffID` int NOT NULL,
+  `HeightCM` decimal(5,2) DEFAULT NULL,
+  `WeightKG` decimal(5,2) DEFAULT NULL,
+  `BMI` decimal(4,1) GENERATED ALWAYS AS ((case when (`HeightCM` > 0) then (`WeightKG` / pow((`HeightCM` / 100),2)) else NULL end)) STORED,
+  `MedicalHistory` text COLLATE utf8mb4_general_ci,
+  `ClearanceStatus` enum('Pending','Cleared','Not Cleared') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `credited_subject`
+--
+
+CREATE TABLE `credited_subject` (
+  `CreditID` int NOT NULL,
+  `SourceType` enum('Shifter','Returnee','Transferee') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Transferee',
+  `OriginalSubjectName` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `OriginalGrade` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `PreviousInstitution` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Status` enum('Pending','Approved','Rejected') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Pending',
+  `Remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `StudentID` int NOT NULL,
+  `SubjectID` int NOT NULL,
+  `EquivalentUnits` decimal(3,1) DEFAULT NULL,
+  `IsCredited` tinyint(1) NOT NULL DEFAULT '0',
+  `ReasonIfNotCredited` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `EvaluatedBy` int DEFAULT NULL,
+  `EvaluationDate` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `curriculum`
+--
+
+CREATE TABLE `curriculum` (
+  `CurriculumID` int NOT NULL,
+  `ProgramID` int NOT NULL,
+  `EffectiveSchoolYear` varchar(9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `curriculum_subject`
+--
+
+CREATE TABLE `curriculum_subject` (
+  `CurriculumSubjectID` int NOT NULL,
+  `CurriculumID` int NOT NULL,
+  `SubjectID` int NOT NULL,
+  `YearLevel` tinyint NOT NULL,
+  `Semester` enum('1st','2nd','Summer') NOT NULL,
+  `PrerequisiteSubjectID` int DEFAULT NULL,
+  `IsMinor` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `department`
+--
+
+CREATE TABLE `department` (
+  `departmentID` int NOT NULL,
+  `DepartmentName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `department`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `enrollment`
+--
+
+CREATE TABLE `enrollment` (
+  `EnrollmentID` int NOT NULL,
+  `EnrollmentDate` date NOT NULL,
+  `SchoolYear` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Semester` enum('1st','2nd','Summer') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Status` enum('Pending','Enrolled','Cancelled','Dropped','Irregular','Graduated') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Enrolled',
+  `StudentID` int NOT NULL,
+  `StaffID` int NOT NULL,
+  `EvaluationID` int NOT NULL,
+  `PaymentID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `enrollment_subject`
+--
+
+CREATE TABLE `enrollment_subject` (
+  `EnrollmentSubjectID` int NOT NULL,
+  `EnrollmentID` int NOT NULL,
+  `SubjectID` int NOT NULL,
+  `SectionID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `evaluation`
+--
+
+CREATE TABLE `evaluation` (
+  `EvaluationID` int NOT NULL,
+  `EvaluationDate` date NOT NULL,
+  `Remarks` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `Status` enum('Pending','Approved','Rejected') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Pending',
+  `StudentID` int NOT NULL,
+  `StaffID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `evaluation_subject`
+--
+
+CREATE TABLE `evaluation_subject` (
+  `EvaluationSubjectID` int NOT NULL,
+  `SubjectStatus` enum('Approved','Credited','Pending') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Pending',
+  `EvaluationID` int NOT NULL,
+  `SubjectID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `id_validation`
+--
+
+CREATE TABLE `id_validation` (
+  `ValidationID` int NOT NULL,
+  `ValidationDate` date NOT NULL,
+  `Status` enum('Pending','Completed','Failed') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Pending',
+  `StudentID` int NOT NULL,
+  `StaffID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `instructor`
+--
+
+CREATE TABLE `instructor` (
+  `InstructorID` int NOT NULL,
+  `EmployeeID` varchar(20) NOT NULL,
+  `LastName` varchar(50) NOT NULL,
+  `FirstName` varchar(50) NOT NULL,
+  `MiddleName` varchar(50) DEFAULT NULL,
+  `DepartmentID` int NOT NULL,
+  `Status` enum('Active','Inactive') NOT NULL DEFAULT 'Active'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `login`
+--
+
+CREATE TABLE `login` (
+  `LoginID` int NOT NULL,
+  `Username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `PasswordHash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `UserType` enum('Student','Staff') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Status` enum('Active','Inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `LastLogin` datetime DEFAULT NULL,
+  `StudentID` int DEFAULT NULL,
+  `StaffID` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `login`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment`
+--
+
+CREATE TABLE `payment` (
+  `PaymentID` int NOT NULL,
+  `Amount` decimal(10,2) NOT NULL,
+  `PaymentDate` date NOT NULL,
+  `ReceiptNo` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `PaymentStatus` enum('Pending','Paid','Cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Pending',
+  `StudentID` int NOT NULL,
+  `StaffID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment_item`
+--
+
+CREATE TABLE `payment_item` (
+  `PaymentItemID` int NOT NULL,
+  `PaymentID` int NOT NULL,
+  `FeeType` varchar(50) NOT NULL,
+  `Description` varchar(150) DEFAULT NULL,
+  `Amount` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `program`
+--
+
+CREATE TABLE `program` (
+  `ProgramID` int NOT NULL,
+  `ProgramName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Cluster` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `DepartmentID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `program`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `register`
+--
+
+CREATE TABLE `register` (
+  `RegisterID` int NOT NULL,
+  `RegistrationDate` datetime NOT NULL,
+  `RegistrationStatus` enum('Pending','Approved','Rejected') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `RegisteredBy` int DEFAULT NULL,
+  `StudentID` int NOT NULL,
+  `StaffID` int NOT NULL,
+  `LoginID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `requirement`
+--
+
+CREATE TABLE `requirement` (
+  `RequirementID` int NOT NULL,
+  `RequirementName` varchar(100) NOT NULL,
+  `ApplicableTo` enum('New','Transferee','Shifter','Returnee','All') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `requirement`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `schedule`
+--
+
+CREATE TABLE `schedule` (
+  `ScheduleID` int NOT NULL,
+  `Day` enum('Monday','Tuesday','Wednesday','Thursday','Friday','Saturday') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `TimeStart` time NOT NULL,
+  `TimeEnd` time NOT NULL,
+  `SectionID` int NOT NULL,
+  `SubjectID` int NOT NULL,
+  `InstructorID` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `section`
+--
+
+CREATE TABLE `section` (
+  `SectionID` int NOT NULL,
+  `SectionCode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `YearLevel` tinyint NOT NULL,
+  `ProgramID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `section`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `security_verification`
+--
+
+CREATE TABLE `security_verification` (
+  `SecurityVerificationID` int NOT NULL,
+  `EnrollmentID` int NOT NULL,
+  `StudentID` int NOT NULL,
+  `Status` enum('Pending','Verified','Blocked') NOT NULL DEFAULT 'Pending',
+  `VerifiedBy` int DEFAULT NULL,
+  `VerificationDate` date DEFAULT NULL,
+  `Remarks` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shifting`
+--
+
+CREATE TABLE `shifting` (
+  `ShiftingID` int NOT NULL,
+  `OldProgramID` int NOT NULL,
+  `NewProgramID` int NOT NULL,
+  `ShiftingDate` date NOT NULL,
+  `Status` enum('Pending','Approved','Rejected') NOT NULL DEFAULT 'Pending',
+  `Remarks` text,
+  `StudentID` int NOT NULL,
+  `StaffID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `staff`
+--
+
+CREATE TABLE `staff` (
+  `StaffID` int NOT NULL,
+  `LastName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `FirstName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `MiddleName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ContactNo` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `DepartmentID` int NOT NULL,
+  `RoleID` enum('Department','Registrar','Accounting','Clinic','Security Office','Admin') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Registrar'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `staff`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student`
+--
+
+CREATE TABLE `student` (
+  `StudentID` int NOT NULL,
+  `StudentNo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `LastName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `FirstName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `MiddleName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `BirthDate` date NOT NULL,
+  `Sex` enum('Male','Female') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ContactNo` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `StudentTypeID` int NOT NULL,
+  `ProgramID` int NOT NULL,
+  `Status` enum('Applicant','Enrolled','Dropped','Irregular','Graduated') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Applicant'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_grades`
+--
+
+CREATE TABLE `student_grades` (
+  `GradeID` int NOT NULL,
+  `StudentID` int NOT NULL,
+  `SubjectID` int NOT NULL,
+  `AcademicYearID` int NOT NULL,
+  `FinalGrade` decimal(4,2) DEFAULT NULL,
+  `GradeStatus` enum('In Progress','Passed','Failed','Incomplete','Dropped') NOT NULL DEFAULT 'In Progress',
+  `EncodedBy` int NOT NULL,
+  `DateEncoded` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_profile`
+--
+
+CREATE TABLE `student_profile` (
+  `ProfileID` int NOT NULL,
+  `Address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `ContactNo` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `GuardianName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `GuardianContactNo` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `PreviousSchoolName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `PreviousProgram` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `LastYearLevelCompleted` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `GWA` decimal(4,2) NOT NULL,
+  `StudentID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student_profile`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_requirement`
+--
+
+CREATE TABLE `student_requirement` (
+  `StudentRequirementID` int NOT NULL,
+  `RequirementID` int NOT NULL,
+  `StudentID` int NOT NULL,
+  `Status` enum('Pending','Submitted','Verified') NOT NULL DEFAULT 'Pending',
+  `DateSubmitted` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_type`
+--
+
+CREATE TABLE `student_type` (
+  `StudentTypeID` int NOT NULL,
+  `TypeName` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student_type`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subject`
+--
+
+CREATE TABLE `subject` (
+  `SubjectID` int NOT NULL,
+  `SubjectCode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `SubjectTitle` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Units` decimal(3,1) NOT NULL DEFAULT '0.0',
+  `SubjectType` enum('Major','Minor') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Major',
+  `Classification` enum('Lecture','Laboratory','Lecture/Laboratory') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Lecture',
+  `ProgramID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `subject`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `system_log`
+--
+
+CREATE TABLE `system_log` (
+  `LogID` int NOT NULL,
+  `Timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `User` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Action` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `Module` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `TableAffected` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `RecordID` int DEFAULT NULL,
+  `OldValue` json DEFAULT NULL,
+  `NewValue` json DEFAULT NULL,
+  `Details` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `IPAddress` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `system_log`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int NOT NULL,
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password_hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'Active',
+  `student_id` int DEFAULT NULL,
+  `staff_id` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `vw_enrollment_checklist`
+-- (See below for the actual view)
+--
+CREATE TABLE `vw_enrollment_checklist` (
+`EnrollmentID` int
+,`StudentID` int
+,`StudentNo` varchar(50)
+,`StudentName` varchar(102)
+,`SchoolYear` varchar(9)
+,`Semester` enum('1st','2nd','Summer')
+,`DepartmentStatus` varchar(8)
+,`RegistrarStatus` varchar(9)
+,`AccountingStatus` varchar(9)
+,`ClinicStatus` varchar(11)
+,`SecurityStatus` varchar(9)
+,`OverallStatus` varchar(11)
+);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `academic_year`
+--
+ALTER TABLE `academic_year`
+  ADD PRIMARY KEY (`AcademicYearID`);
+
+--
+-- Indexes for table `admission`
+--
+ALTER TABLE `admission`
+  ADD PRIMARY KEY (`AdmissionID`),
+  ADD KEY `StaffID` (`StaffID`),
+  ADD KEY `StudentID` (`StudentID`);
+
+--
+-- Indexes for table `blocking`
+--
+ALTER TABLE `blocking`
+  ADD PRIMARY KEY (`BlockingID`),
+  ADD KEY `EnrollmentID` (`EnrollmentID`),
+  ADD KEY `SectionID` (`SectionID`);
+
+--
+-- Indexes for table `clearance`
+--
+ALTER TABLE `clearance`
+  ADD PRIMARY KEY (`ClearanceID`),
+  ADD KEY `StudentID` (`StudentID`);
+
+--
+-- Indexes for table `clinic`
+--
+ALTER TABLE `clinic`
+  ADD PRIMARY KEY (`ClinicID`),
+  ADD KEY `StudentID` (`StudentID`),
+  ADD KEY `StaffID` (`StaffID`);
+
+--
+-- Indexes for table `credited_subject`
+--
+ALTER TABLE `credited_subject`
+  ADD PRIMARY KEY (`CreditID`),
+  ADD KEY `StudentID` (`StudentID`),
+  ADD KEY `SubjectID` (`SubjectID`),
+  ADD KEY `fk_credited_subject_staff` (`EvaluatedBy`);
+
+--
+-- Indexes for table `curriculum`
+--
+ALTER TABLE `curriculum`
+  ADD PRIMARY KEY (`CurriculumID`);
+
+--
+-- Indexes for table `curriculum_subject`
+--
+ALTER TABLE `curriculum_subject`
+  ADD PRIMARY KEY (`CurriculumSubjectID`);
+
+--
+-- Indexes for table `department`
+--
+ALTER TABLE `department`
+  ADD PRIMARY KEY (`departmentID`);
+
+--
+-- Indexes for table `enrollment`
+--
+ALTER TABLE `enrollment`
+  ADD PRIMARY KEY (`EnrollmentID`),
+  ADD KEY `EvaluationID` (`EvaluationID`),
+  ADD KEY `PaymentID` (`PaymentID`),
+  ADD KEY `StudentID` (`StudentID`),
+  ADD KEY `StaffID` (`StaffID`);
+
+--
+-- Indexes for table `enrollment_subject`
+--
+ALTER TABLE `enrollment_subject`
+  ADD PRIMARY KEY (`EnrollmentSubjectID`),
+  ADD KEY `EnrollmentID` (`EnrollmentID`),
+  ADD KEY `SectionID` (`SectionID`),
+  ADD KEY `SubjectID` (`SubjectID`);
+
+--
+-- Indexes for table `evaluation`
+--
+ALTER TABLE `evaluation`
+  ADD PRIMARY KEY (`EvaluationID`),
+  ADD KEY `StudentID` (`StudentID`),
+  ADD KEY `StaffID` (`StaffID`);
+
+--
+-- Indexes for table `evaluation_subject`
+--
+ALTER TABLE `evaluation_subject`
+  ADD PRIMARY KEY (`EvaluationSubjectID`),
+  ADD KEY `EvaluationID` (`EvaluationID`),
+  ADD KEY `SubjectID` (`SubjectID`);
+
+--
+-- Indexes for table `id_validation`
+--
+ALTER TABLE `id_validation`
+  ADD PRIMARY KEY (`ValidationID`),
+  ADD KEY `StudentID` (`StudentID`),
+  ADD KEY `StaffID` (`StaffID`);
+
+--
+-- Indexes for table `instructor`
+--
+ALTER TABLE `instructor`
+  ADD PRIMARY KEY (`InstructorID`),
+  ADD UNIQUE KEY `uq_instructor_employee_id` (`EmployeeID`),
+  ADD KEY `idx_instructor_department` (`DepartmentID`);
+
+--
+-- Indexes for table `login`
+--
+ALTER TABLE `login`
+  ADD PRIMARY KEY (`LoginID`),
+  ADD KEY `StaffID` (`StaffID`),
+  ADD KEY `StudentID` (`StudentID`);
+
+--
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`PaymentID`),
+  ADD KEY `StudentID` (`StudentID`),
+  ADD KEY `StaffID` (`StaffID`);
+
+--
+-- Indexes for table `payment_item`
+--
+ALTER TABLE `payment_item`
+  ADD PRIMARY KEY (`PaymentItemID`),
+  ADD KEY `idx_payment_item_payment` (`PaymentID`);
+
+--
+-- Indexes for table `program`
+--
+ALTER TABLE `program`
+  ADD PRIMARY KEY (`ProgramID`),
+  ADD KEY `DepartmentID` (`DepartmentID`);
+
+--
+-- Indexes for table `register`
+--
+ALTER TABLE `register`
+  ADD PRIMARY KEY (`RegisterID`),
+  ADD KEY `LoginID` (`LoginID`),
+  ADD KEY `StaffID` (`StaffID`),
+  ADD KEY `StudentID` (`StudentID`);
+
+--
+-- Indexes for table `requirement`
+--
+ALTER TABLE `requirement`
+  ADD PRIMARY KEY (`RequirementID`);
+
+--
+-- Indexes for table `schedule`
+--
+ALTER TABLE `schedule`
+  ADD PRIMARY KEY (`ScheduleID`),
+  ADD KEY `SectionID` (`SectionID`),
+  ADD KEY `SubjectID` (`SubjectID`),
+  ADD KEY `idx_schedule_instructor` (`InstructorID`);
+
+--
+-- Indexes for table `section`
+--
+ALTER TABLE `section`
+  ADD PRIMARY KEY (`SectionID`),
+  ADD KEY `ProgramID` (`ProgramID`);
+
+--
+-- Indexes for table `security_verification`
+--
+ALTER TABLE `security_verification`
+  ADD PRIMARY KEY (`SecurityVerificationID`),
+  ADD UNIQUE KEY `uq_security_enrollment` (`EnrollmentID`),
+  ADD KEY `idx_security_student` (`StudentID`),
+  ADD KEY `fk_security_staff` (`VerifiedBy`);
+
+--
+-- Indexes for table `shifting`
+--
+ALTER TABLE `shifting`
+  ADD PRIMARY KEY (`ShiftingID`);
+
+--
+-- Indexes for table `staff`
+--
+ALTER TABLE `staff`
+  ADD PRIMARY KEY (`StaffID`),
+  ADD KEY `DepartmentID` (`DepartmentID`);
+
+--
+-- Indexes for table `student`
+--
+ALTER TABLE `student`
+  ADD PRIMARY KEY (`StudentID`),
+  ADD KEY `StudentTypeID` (`StudentTypeID`),
+  ADD KEY `ProgramID` (`ProgramID`);
+
+--
+-- Indexes for table `student_grades`
+--
+ALTER TABLE `student_grades`
+  ADD PRIMARY KEY (`GradeID`),
+  ADD UNIQUE KEY `uq_student_subject_term` (`StudentID`,`SubjectID`,`AcademicYearID`),
+  ADD KEY `idx_grades_student` (`StudentID`),
+  ADD KEY `idx_grades_subject` (`SubjectID`),
+  ADD KEY `idx_grades_status` (`GradeStatus`),
+  ADD KEY `fk_grades_academic_year` (`AcademicYearID`),
+  ADD KEY `fk_grades_staff` (`EncodedBy`);
+
+--
+-- Indexes for table `student_profile`
+--
+ALTER TABLE `student_profile`
+  ADD PRIMARY KEY (`ProfileID`),
+  ADD KEY `StudentID` (`StudentID`);
+
+--
+-- Indexes for table `student_requirement`
+--
+ALTER TABLE `student_requirement`
+  ADD PRIMARY KEY (`StudentRequirementID`);
+
+--
+-- Indexes for table `student_type`
+--
+ALTER TABLE `student_type`
+  ADD PRIMARY KEY (`StudentTypeID`);
+
+--
+-- Indexes for table `subject`
+--
+ALTER TABLE `subject`
+  ADD PRIMARY KEY (`SubjectID`),
+  ADD KEY `ProgramID` (`ProgramID`);
+
+--
+-- Indexes for table `system_log`
+--
+ALTER TABLE `system_log`
+  ADD PRIMARY KEY (`LogID`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD KEY `username_2` (`username`),
+  ADD KEY `role` (`role`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `academic_year`
+--
+ALTER TABLE `academic_year`
+  MODIFY `AcademicYearID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `admission`
+--
+ALTER TABLE `admission`
+  MODIFY `AdmissionID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `blocking`
+--
+ALTER TABLE `blocking`
+  MODIFY `BlockingID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `clearance`
+--
+ALTER TABLE `clearance`
+  MODIFY `ClearanceID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `clinic`
+--
+ALTER TABLE `clinic`
+  MODIFY `ClinicID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `credited_subject`
+--
+ALTER TABLE `credited_subject`
+  MODIFY `CreditID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `curriculum`
+--
+ALTER TABLE `curriculum`
+  MODIFY `CurriculumID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `curriculum_subject`
+--
+ALTER TABLE `curriculum_subject`
+  MODIFY `CurriculumSubjectID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `department`
+--
+ALTER TABLE `department`
+  MODIFY `departmentID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `enrollment`
+--
+ALTER TABLE `enrollment`
+  MODIFY `EnrollmentID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `enrollment_subject`
+--
+ALTER TABLE `enrollment_subject`
+  MODIFY `EnrollmentSubjectID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `evaluation`
+--
+ALTER TABLE `evaluation`
+  MODIFY `EvaluationID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `evaluation_subject`
+--
+ALTER TABLE `evaluation_subject`
+  MODIFY `EvaluationSubjectID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `id_validation`
+--
+ALTER TABLE `id_validation`
+  MODIFY `ValidationID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `instructor`
+--
+ALTER TABLE `instructor`
+  MODIFY `InstructorID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `login`
+--
+ALTER TABLE `login`
+  MODIFY `LoginID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70044;
+
+--
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `PaymentID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `payment_item`
+--
+ALTER TABLE `payment_item`
+  MODIFY `PaymentItemID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `program`
+--
+ALTER TABLE `program`
+  MODIFY `ProgramID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+
+--
+-- AUTO_INCREMENT for table `register`
+--
+ALTER TABLE `register`
+  MODIFY `RegisterID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `requirement`
+--
+ALTER TABLE `requirement`
+  MODIFY `RequirementID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `schedule`
+--
+ALTER TABLE `schedule`
+  MODIFY `ScheduleID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `section`
+--
+ALTER TABLE `section`
+  MODIFY `SectionID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
+-- AUTO_INCREMENT for table `security_verification`
+--
+ALTER TABLE `security_verification`
+  MODIFY `SecurityVerificationID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `shifting`
+--
+ALTER TABLE `shifting`
+  MODIFY `ShiftingID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `staff`
+--
+ALTER TABLE `staff`
+  MODIFY `StaffID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT for table `student`
+--
+ALTER TABLE `student`
+  MODIFY `StudentID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70003;
+
+--
+-- AUTO_INCREMENT for table `student_grades`
+--
+ALTER TABLE `student_grades`
+  MODIFY `GradeID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `student_profile`
+--
+ALTER TABLE `student_profile`
+  MODIFY `ProfileID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70003;
+
+--
+-- AUTO_INCREMENT for table `student_requirement`
+--
+ALTER TABLE `student_requirement`
+  MODIFY `StudentRequirementID` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `student_type`
+--
+ALTER TABLE `student_type`
+  MODIFY `StudentTypeID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `subject`
+--
+ALTER TABLE `subject`
+  MODIFY `SubjectID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
+
+--
+-- AUTO_INCREMENT for table `system_log`
+--
+ALTER TABLE `system_log`
+  MODIFY `LogID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70044;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vw_enrollment_checklist`
+--
+DROP TABLE IF EXISTS `vw_enrollment_checklist`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_enrollment_checklist`  AS SELECT `e`.`EnrollmentID` AS `EnrollmentID`, `e`.`StudentID` AS `StudentID`, `s`.`StudentNo` AS `StudentNo`, concat(`s`.`LastName`,', ',`s`.`FirstName`) AS `StudentName`, `e`.`SchoolYear` AS `SchoolYear`, `e`.`Semester` AS `Semester`, coalesce(`a`.`Status`,'Pending') AS `DepartmentStatus`, (case when (`ev`.`Status` = 'Approved') then 'Completed' when (`ev`.`Status` is null) then 'Pending' else `ev`.`Status` end) AS `RegistrarStatus`, (case when (`p`.`PaymentStatus` = 'Paid') then 'Completed' when (`p`.`PaymentStatus` is null) then 'Pending' else `p`.`PaymentStatus` end) AS `AccountingStatus`, (case when (`c`.`ClearanceStatus` = 'Cleared') then 'Completed' when (`c`.`ClearanceStatus` is null) then 'Pending' else `c`.`ClearanceStatus` end) AS `ClinicStatus`, (case when (`sv`.`Status` = 'Verified') then 'Completed' when (`sv`.`Status` is null) then 'Pending' else `sv`.`Status` end) AS `SecurityStatus`, (case when (`sv`.`Status` = 'Verified') then 'CONFIRMED' else 'IN PROGRESS' end) AS `OverallStatus` FROM ((((((`enrollment` `e` join `student` `s` on((`s`.`StudentID` = `e`.`StudentID`))) left join `admission` `a` on((`a`.`StudentID` = `e`.`StudentID`))) left join `evaluation` `ev` on((`ev`.`EvaluationID` = `e`.`EvaluationID`))) left join `payment` `p` on((`p`.`PaymentID` = `e`.`PaymentID`))) left join `clinic` `c` on((`c`.`StudentID` = `e`.`StudentID`))) left join `security_verification` `sv` on((`sv`.`EnrollmentID` = `e`.`EnrollmentID`))) ;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `admission`
+--
+ALTER TABLE `admission`
+  ADD CONSTRAINT `admission_ibfk_1` FOREIGN KEY (`StaffID`) REFERENCES `staff` (`StaffID`),
+  ADD CONSTRAINT `admission_ibfk_2` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`);
+
+--
+-- Constraints for table `blocking`
+--
+ALTER TABLE `blocking`
+  ADD CONSTRAINT `blocking_ibfk_1` FOREIGN KEY (`EnrollmentID`) REFERENCES `enrollment` (`EnrollmentID`),
+  ADD CONSTRAINT `blocking_ibfk_2` FOREIGN KEY (`SectionID`) REFERENCES `section` (`SectionID`);
+
+--
+-- Constraints for table `clearance`
+--
+ALTER TABLE `clearance`
+  ADD CONSTRAINT `clearance_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`);
+
+--
+-- Constraints for table `clinic`
+--
+ALTER TABLE `clinic`
+  ADD CONSTRAINT `clinic_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`),
+  ADD CONSTRAINT `clinic_ibfk_2` FOREIGN KEY (`StaffID`) REFERENCES `staff` (`StaffID`);
+
+--
+-- Constraints for table `credited_subject`
+--
+ALTER TABLE `credited_subject`
+  ADD CONSTRAINT `credited_subject_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`),
+  ADD CONSTRAINT `credited_subject_ibfk_2` FOREIGN KEY (`SubjectID`) REFERENCES `subject` (`SubjectID`),
+  ADD CONSTRAINT `fk_credited_subject_staff` FOREIGN KEY (`EvaluatedBy`) REFERENCES `staff` (`StaffID`);
+
+--
+-- Constraints for table `enrollment`
+--
+ALTER TABLE `enrollment`
+  ADD CONSTRAINT `enrollment_ibfk_1` FOREIGN KEY (`EvaluationID`) REFERENCES `evaluation` (`EvaluationID`),
+  ADD CONSTRAINT `enrollment_ibfk_2` FOREIGN KEY (`PaymentID`) REFERENCES `payment` (`PaymentID`),
+  ADD CONSTRAINT `enrollment_ibfk_3` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`),
+  ADD CONSTRAINT `enrollment_ibfk_4` FOREIGN KEY (`StaffID`) REFERENCES `staff` (`StaffID`);
+
+--
+-- Constraints for table `enrollment_subject`
+--
+ALTER TABLE `enrollment_subject`
+  ADD CONSTRAINT `enrollment_subject_ibfk_1` FOREIGN KEY (`EnrollmentID`) REFERENCES `enrollment` (`EnrollmentID`),
+  ADD CONSTRAINT `enrollment_subject_ibfk_2` FOREIGN KEY (`SectionID`) REFERENCES `section` (`SectionID`),
+  ADD CONSTRAINT `enrollment_subject_ibfk_3` FOREIGN KEY (`SubjectID`) REFERENCES `subject` (`SubjectID`);
+
+--
+-- Constraints for table `evaluation`
+--
+ALTER TABLE `evaluation`
+  ADD CONSTRAINT `evaluation_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`),
+  ADD CONSTRAINT `evaluation_ibfk_2` FOREIGN KEY (`StaffID`) REFERENCES `staff` (`StaffID`);
+
+--
+-- Constraints for table `evaluation_subject`
+--
+ALTER TABLE `evaluation_subject`
+  ADD CONSTRAINT `evaluation_subject_ibfk_1` FOREIGN KEY (`EvaluationID`) REFERENCES `evaluation` (`EvaluationID`),
+  ADD CONSTRAINT `evaluation_subject_ibfk_2` FOREIGN KEY (`SubjectID`) REFERENCES `subject` (`SubjectID`);
+
+--
+-- Constraints for table `id_validation`
+--
+ALTER TABLE `id_validation`
+  ADD CONSTRAINT `id_validation_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`),
+  ADD CONSTRAINT `id_validation_ibfk_2` FOREIGN KEY (`StaffID`) REFERENCES `staff` (`StaffID`);
+
+--
+-- Constraints for table `instructor`
+--
+ALTER TABLE `instructor`
+  ADD CONSTRAINT `fk_instructor_department` FOREIGN KEY (`DepartmentID`) REFERENCES `department` (`departmentID`);
+
+--
+-- Constraints for table `login`
+--
+ALTER TABLE `login`
+  ADD CONSTRAINT `login_ibfk_1` FOREIGN KEY (`StaffID`) REFERENCES `staff` (`StaffID`),
+  ADD CONSTRAINT `login_ibfk_2` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`);
+
+--
+-- Constraints for table `payment`
+--
+ALTER TABLE `payment`
+  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`),
+  ADD CONSTRAINT `payment_ibfk_2` FOREIGN KEY (`StaffID`) REFERENCES `staff` (`StaffID`);
+
+--
+-- Constraints for table `payment_item`
+--
+ALTER TABLE `payment_item`
+  ADD CONSTRAINT `fk_payment_item_payment` FOREIGN KEY (`PaymentID`) REFERENCES `payment` (`PaymentID`);
+
+--
+-- Constraints for table `program`
+--
+ALTER TABLE `program`
+  ADD CONSTRAINT `program_ibfk_1` FOREIGN KEY (`DepartmentID`) REFERENCES `department` (`departmentID`);
+
+--
+-- Constraints for table `register`
+--
+ALTER TABLE `register`
+  ADD CONSTRAINT `register_ibfk_1` FOREIGN KEY (`LoginID`) REFERENCES `login` (`LoginID`),
+  ADD CONSTRAINT `register_ibfk_2` FOREIGN KEY (`StaffID`) REFERENCES `staff` (`StaffID`),
+  ADD CONSTRAINT `register_ibfk_3` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`);
+
+--
+-- Constraints for table `schedule`
+--
+ALTER TABLE `schedule`
+  ADD CONSTRAINT `fk_schedule_instructor` FOREIGN KEY (`InstructorID`) REFERENCES `instructor` (`InstructorID`),
+  ADD CONSTRAINT `schedule_ibfk_1` FOREIGN KEY (`SectionID`) REFERENCES `section` (`SectionID`),
+  ADD CONSTRAINT `schedule_ibfk_2` FOREIGN KEY (`SubjectID`) REFERENCES `subject` (`SubjectID`);
+
+--
+-- Constraints for table `section`
+--
+ALTER TABLE `section`
+  ADD CONSTRAINT `section_ibfk_1` FOREIGN KEY (`ProgramID`) REFERENCES `program` (`ProgramID`);
+
+--
+-- Constraints for table `security_verification`
+--
+ALTER TABLE `security_verification`
+  ADD CONSTRAINT `fk_security_enrollment` FOREIGN KEY (`EnrollmentID`) REFERENCES `enrollment` (`EnrollmentID`),
+  ADD CONSTRAINT `fk_security_staff` FOREIGN KEY (`VerifiedBy`) REFERENCES `staff` (`StaffID`),
+  ADD CONSTRAINT `fk_security_student` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`);
+
+--
+-- Constraints for table `staff`
+--
+ALTER TABLE `staff`
+  ADD CONSTRAINT `staff_ibfk_1` FOREIGN KEY (`DepartmentID`) REFERENCES `department` (`departmentID`);
+
+--
+-- Constraints for table `student`
+--
+ALTER TABLE `student`
+  ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`StudentTypeID`) REFERENCES `student_type` (`StudentTypeID`),
+  ADD CONSTRAINT `student_ibfk_2` FOREIGN KEY (`ProgramID`) REFERENCES `program` (`ProgramID`);
+
+--
+-- Constraints for table `student_grades`
+--
+ALTER TABLE `student_grades`
+  ADD CONSTRAINT `fk_grades_academic_year` FOREIGN KEY (`AcademicYearID`) REFERENCES `academic_year` (`AcademicYearID`),
+  ADD CONSTRAINT `fk_grades_staff` FOREIGN KEY (`EncodedBy`) REFERENCES `staff` (`StaffID`),
+  ADD CONSTRAINT `fk_grades_student` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`),
+  ADD CONSTRAINT `fk_grades_subject` FOREIGN KEY (`SubjectID`) REFERENCES `subject` (`SubjectID`);
+
+--
+-- Constraints for table `student_profile`
+--
+ALTER TABLE `student_profile`
+  ADD CONSTRAINT `student_profile_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`);
+
+--
+-- Constraints for table `subject`
+--
+ALTER TABLE `subject`
+  ADD CONSTRAINT `subject_ibfk_1` FOREIGN KEY (`ProgramID`) REFERENCES `program` (`ProgramID`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+```
+
+---
+
+# 24. Curriculum Requirements
+
+Create demo curriculum data for every program, using the existing `curriculum` and `curriculum_subject` tables (`YearLevel`, `Semester` enum `'1st'|'2nd'|'Summer'`, `IsMinor` flag).
+
+Each program must have subjects/units for:
+
+### 1st Year
+
+* First Semester
+* Second Semester
+
+### 2nd Year
+
+* First Semester
+* Second Semester
+
+### 3rd Year
+
+* First Semester
+* Second Semester
+
+### 4th Year
+
+* First Semester
+* Second Semester
+
+Each curriculum should contain required subjects and units.
+
+Also include **minor subjects/units** (`curriculum_subject.IsMinor = 1`).
+
+Minor subjects must be usable when evaluating subjects for shifters and transferees (see `credited_subject`).
+
+---
+
+# 25. Demo Data Requirements
+
+Generate realistic test data using the existing schema (`student`, `student_profile`, `enrollment`, `student_grades`, `credited_subject`, etc.).
+
+The system should contain **more than 25,000 existing students** (`student` rows with `student_type`/status already populated).
+
+Use random student statuses among:
+
+* Regular
+* Irregular
+* Shifter
+* Returnee
+
+Also include appropriate records for their:
+
+* Programs
+* Grades (`student_grades`)
+* Completed subjects
+* Failed subjects
+* Previous programs where applicable
+* Enrollment history (`enrollment`, `enrollment_subject`)
+
+Do not make all students regular.
+
+Randomize the statuses to properly test the different workflows.
+
+---
+
+# 26. New Students
+
+Generate:
+
+**5,000 new students**
+
+These students should not already have previous student records in the system.
+
+They should be available for testing the new-student registration process (`admission` table starting at `Status = 'Pending'`).
+
+---
+
+# 27. Transferees
+
+Generate:
+
+**5,000 transferee students**
+
+Include previous academic records for these students, recorded through `credited_subject` (`SourceType = 'Transferee'`):
+
+* Previous school (`PreviousInstitution`)
+* Previous program
+* Previous subjects (`OriginalSubjectName`)
+* Grades (`OriginalGrade`)
+* Some subjects that can be credited (`IsCredited = 1`)
+* Some subjects that cannot be credited (`IsCredited = 0`, with `ReasonIfNotCredited`)
+
+This is important for testing the transferee evaluation process.
+
+---
+
+# 28. Units/Subjects
+
+Add **10 demo units/subjects per program** in the `subject` table.
+
+Include:
+
+* Subject code
+* Subject name
+* Description
+* Units
+* Lecture/laboratory classification
+* Major/minor classification
+
+Include enough subjects to properly demonstrate the eight-semester curriculum.
+
+Do not limit the entire system to only 10 subjects if more are required to make the curriculum realistic. The requirement is that each program must have at least 10 demo units.
+
+---
+
+# 29. Instructors
+
+Add at least:
+
+**5 instructors per unit/subject** in the `instructor` table (linked to `department` via `DepartmentID`).
+
+Include:
+
+* Instructor name
+* Employee ID
+* Department/unit
+* Status
+
+Use instructors when generating class schedules (`schedule.InstructorID`).
+
+---
+
+# 30. Schedule Data
+
+Generate demo schedules for the subjects using the `schedule` table (linked to `section`, `subject`, and `instructor`).
+
+Schedules should contain:
+
+* Subject
+* Instructor
+* Block/Section
+* Day
+* Start time
+* End time
+* Room
+* Semester
+* School year
+
+Create enough schedule data to test the Registrar's scheduling process.
+
+The system must detect schedule conflicts.
+
+For example, a student must not be assigned two subjects at the same time (validate against `enrollment_subject` + `schedule`).
+
+---
+
+# 31. Test Student Data
+
+Generate enough academic history to test all student types.
+
+For existing students, create realistic combinations of:
+
+* Passed subjects
+* Failed subjects
+* Completed subjects
+* Previous programs
+* Previous school years
+* Previous semesters
+
+For example:
+
+```text
+Student A
+Status: Regular
+Previous subjects: completed
+Current subjects: next semester curriculum
+
+Student B
+Status: Irregular
+Passed: 8 subjects
+Failed: 2 subjects
+Remaining: several subjects
+
+Student C
+Status: Shifter
+Previous Program: Program A
+New Program: Program B
+Credited Subjects: common/minor subjects
+
+Student D
+Status: Returnee
+Completed subjects: previous curriculum
+Remaining subjects: current curriculum requirements
+
+Student E
+Status: Transferee
+Previous School: External School
+Previous Grades: available
+Credited Subjects: evaluated by Department
+```
+
+---
+
+# 32. Checklist Logic
+
+The checklist is already database-driven via the `vw_enrollment_checklist` view, which derives status from `admission`, `evaluation`, `payment`, `clinic`, and `security_verification` for each `enrollment` row.
+
+Conceptually the checklist maps to:
+
+```text
+EnrollmentID
+StudentID
+DepartmentStatus   (from admission.Status)
+RegistrarStatus    (from evaluation.Status)
+AccountingStatus   (from payment.PaymentStatus)
+ClinicStatus       (from clinic.ClearanceStatus)
+SecurityStatus     (from security_verification.Status)
+OverallStatus       (CONFIRMED / IN PROGRESS)
+```
+
+Use the view directly for read paths (Student, Security, Admin dashboards). Writes go through the underlying office-specific tables (`admission`, `evaluation`, `payment`, `clinic`, `security_verification`), and the view will reflect the updated status immediately since it is a live SQL view, not a cached/duplicated table.
+
+The student must be able to see the latest status immediately after staff actions.
+
+---
+
+# 33. Status Logic
+
+Use the exact ENUM values already defined in the schema. Do not invent new status strings — map all UI logic to these:
+
+* `admission.Status`: `Pending`, `Approved`, `Rejected`
+* `evaluation.Status` (Registrar): defined in `evaluation` table — treat `Approved` as Registrar-completed for the checklist view
+* `payment.PaymentStatus` (Accounting): `Paid` marks Accounting completed in the checklist view
+* `clinic.ClearanceStatus`: `Pending`, `Cleared`, `Not Cleared` (`Cleared` marks Clinic completed)
+* `security_verification.Status`: `Verified` marks Security completed and the overall enrollment `CONFIRMED`
+* `enrollment.Status`: `Pending`, `Enrolled`, `Cancelled`, `Dropped`, `Irregular`, `Graduated`
+* `credited_subject.Status`: `Pending`, `Approved`, `Rejected`
+
+Do not allow invalid status transitions.
+
+For example:
+
+```text
+Department Pending
+      ↓
+Department Approved
+      ↓
+Registrar Processing
+      ↓
+Registrar Completed
+      ↓
+Accounting Payment
+      ↓
+Accounting Completed
+      ↓
+Clinic Completed
+      ↓
+Security Verification
+      ↓
+Enrollment Confirmed
+```
+
+---
+
+# 34. Validation Rules
+
+Implement server-side and client-side validation.
+
+Examples:
+
+* Required student information cannot be empty.
+* Student IDs (`student.StudentNo`) must be unique.
+* Usernames/emails must be unique where applicable (`users` table).
+* Subject codes must be unique (`subject` table).
+* A student cannot enroll in the same subject twice (`enrollment_subject`).
+* A student cannot be assigned conflicting schedules (`schedule` vs `enrollment_subject`).
+* Already completed subjects should not be enrolled again (check `student_grades` / `credited_subject` before insert into `enrollment_subject`).
+* Accounting cannot confirm an unpaid transaction (`payment.PaymentStatus`).
+* Security cannot confirm an incomplete enrollment (must check `admission`, `evaluation`, `payment`, `clinic` statuses before allowing `security_verification` insert/update).
+* Students cannot access another student's records.
+* Staff cannot access functions outside their role.
+
+Never rely only on JavaScript validation. PHP must also validate submitted data.
+
+---
+
+# 35. Security Requirements
+
+Implement basic secure PHP practices:
+
+* Password hashing using `password_hash()`
+* Password verification using `password_verify()`
+* PHP sessions
+* Prepared statements using PDO or MySQLi
+* SQL injection protection
+* Input validation
+* Output escaping
+* Role-based authorization
+* Session timeout where appropriate
+* CSRF protection for important forms
+* Audit logging for important actions (`system_log` table)
+
+Never store plain-text passwords.
+
+---
+
+# 36. Audit Logs
+
+Record important actions in the `system_log` table, such as:
+
+* Login
+* Logout
+* Student creation
+* Student update
+* Grade entry/update
+* Department approval
+* Registrar processing
+* Study load generation
+* Payment recording
+* Receipt generation
+* Medical record update
+* Security confirmation
+* User creation
+* Role changes
+
+Include:
+
+* User
+* Action
+* Table/entity affected
+* Record ID
+* Date/time
+* Relevant old/new values when appropriate
+
+---
+
+# 37. Search and Filtering
+
+All major dashboards should have search and filtering.
+
+Allow searching by:
+
+* Student ID (`student.StudentNo`)
+* Student name
+* Program
+* Status
+* School year
+* Semester
+
+Use Bootstrap tables with pagination.
+
+Do not load all 35,000+ students into one HTML table at once.
+
+Use server-side pagination/search for large student datasets (index `student.StudentNo`, `student.LastName`, and relevant foreign keys as needed).
+
+---
+
+# 38. Dashboard Requirements
+
+Each dashboard should show only information relevant to that role.
+
+### Student Dashboard
+
+Show:
+
+* Checklist (from `vw_enrollment_checklist`)
+* Enrollment status
+* Program
+* Student status
+* Study load
+* Subject load
+* Schedule
+* Payment status
+* Medical record status
+
+### Department Dashboard
+
+Show:
+
+* Pending registrations (`admission.Status = 'Pending'`)
+* Students by status
+* Transferee evaluations (`credited_subject` where `SourceType = 'Transferee'`)
+* Students awaiting approval
+* Recent registrations
+
+### Registrar Dashboard
+
+Show:
+
+* Students awaiting Registrar processing (`evaluation` pending)
+* Students processed
+* Current enrollment
+* Available subjects
+* Available schedules
+
+### Accounting Dashboard
+
+Show:
+
+* Students awaiting payment
+* Paid students
+* Unpaid students
+* Recent payments
+* Receipts
+
+### Clinic Dashboard
+
+Show:
+
+* Students awaiting medical processing
+* Completed medical records
+* Pending medical records
+
+### Security Dashboard
+
+Show:
+
+* Students awaiting final verification
+* Completed enrollments
+* Search student by ID
+
+### Admin Dashboard
+
+Show:
+
+* Total users
+* Staff accounts
+* Active users
+* Recent audit activities (`system_log`)
+
+---
+
+# 39. Printing
+
+Provide simple print-friendly pages for:
+
+* Student previous grades
+* Study load
+* Subject load
+* Payment receipt
+* Student medical record when permitted
+* Enrollment confirmation
+
+Use browser-friendly print CSS.
+
+Do not require an external PDF library unless necessary.
+
+---
+
+# 40. Complete Workflow
+
+Implement this complete flow:
+
+```text
+START
+  ↓
+Student goes to Department
+  ↓
+Determine Student Status
+  ↓
+New / Regular / Irregular / Shifter / Returnee / Transferee
+  ↓
+Department Registration / Record Evaluation
+  ↓
+Department Approval (admission.Status = 'Approved')
+  ↓
+Confirmation Checklist Created (enrollment row exists)
+  ↓
+Registrar
+  ↓
+Evaluate Curriculum
+  ↓
+Credit Applicable Subjects (credited_subject)
+  ↓
+Select Required Subjects
+  ↓
+Generate Study Load
+  ↓
+Generate Subject Load (enrollment_subject)
+  ↓
+Assign Block (blocking / section)
+  ↓
+Assign Schedule (schedule)
+  ↓
+Assign Student ID if New/Transferee
+  ↓
+Registrar Completed (evaluation.Status = 'Approved')
+  ↓
+Accounting
+  ↓
+Calculate/Display Fees (payment_item)
+  ↓
+Student Pays
+  ↓
+Accounting Records Payment (payment)
+  ↓
+Receipt Generated
+  ↓
+Accounting Completed (payment.PaymentStatus = 'Paid')
+  ↓
+Clinic
+  ↓
+Medical Record (clinic)
+  ↓
+Height / Weight / Medical Information
+  ↓
+Clinic Completed (clinic.ClearanceStatus = 'Cleared')
+  ↓
+Security Office
+  ↓
+Search Student ID
+  ↓
+Verify Registrar
+Verify Accounting
+Verify Clinic
+  ↓
+Security Confirmation (security_verification.Status = 'Verified')
+  ↓
+Enrollment Confirmed
+  ↓
+Student Dashboard Shows:
+✓ COMPLETE
+```
+
+---
+
+# 41. Important Business Rule
+
+The system must preserve the difference between:
+
+**Academic Processing** and **Checklist Confirmation**.
+
+Do not simply mark the student as enrolled because a study load exists.
+
+The student is only fully confirmed after the required offices complete their processes — i.e., only when `security_verification.Status = 'Verified'`, which is what drives `OverallStatus = 'CONFIRMED'` in `vw_enrollment_checklist`.
+
+The final enrollment state must depend on the actual checklist records.
+
+---
+
+# 42. Deliverables
+
+Generate the complete working project.
+
+Include:
+
+1. PHP source code
+2. HTML/PHP pages
+3. CSS
+4. JavaScript
+5. MySQL database (the `enrollments` database, schema as provided in Section 23)
+6. SQL database creation script (use the provided schema; do not redesign it)
+7. Database seed/demo data (per Sections 25–31)
+8. Authentication
+9. Role-based access
+10. All seven dashboards
+11. Enrollment workflow
+12. Student status workflows
+13. Curriculum
+14. Subjects/units
+15. Blocks
+16. Schedules
+17. Instructors
+18. Grades
+19. Payments
+20. Receipts
+21. Medical records
+22. Security verification
+23. Confirmation checklist
+24. Audit logs
+25. Printing pages
+
+---
+
+# 43. Demo Data Performance Requirement
+
+Because the system contains more than:
+
+* 25,000 existing students
+* 5,000 new students
+* 5,000 transferees
+
+the database and PHP queries must be written with performance in mind.
+
+Use:
+
+* Proper indexes
+* Foreign keys (already defined in the schema — Section 23)
+* Pagination
+* Search queries
+* Efficient joins
+* Server-side filtering
+
+Do not retrieve the entire student database unnecessarily.
+
+---
+
+# 44. Final Requirement
+
+The final system should behave like a real enrollment management system, built on top of the **existing `enrollments` database schema provided in Section 23** — not a newly designed one.
+
+The most important requirement is that the **workflow and business logic must work correctly**.
+
+Do not create fake buttons that do nothing.
+
+Every important action must:
+
+1. Validate the request.
+2. Check the user's role.
+3. Update the database.
+4. Update the relevant checklist/status.
+5. Display the updated information to the appropriate users.
+
+The system must maintain consistent student records throughout the entire process.
+
+The system should be simple, functional, and easy to test locally using **Laragon + PHP + MySQL**, with **Bootstrap and Font Awesome only for the interface/layout**.

@@ -1,0 +1,35 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Database dump files
+*.sql
+# (Optional) If you want to commit your enrollments.sql for backup, you can remove the *.sql line above, 
+# but it is highly recommended to ignore it to prevent committing sensitive data or hitting file size limits.
+
+# User uploaded files / media
+photo/*
+!photo/.gitkeep
+
+# Environment and Configuration files (Security)
+# It is best practice to NOT commit your actual database configuration containing passwords.
+# We will ignore db.php. You should create a 'db.example.php' without the passwords to commit instead.
+config/db.php
+
+# Editor / IDE specific files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Laragon / Server logs (if any get created here)
+error_log
+access_log

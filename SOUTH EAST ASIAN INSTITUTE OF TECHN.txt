@@ -1,0 +1,172 @@
+SOUTH EAST ASIAN INSTITUTE OF TECHNOLOGY, INC. (SEAIT)
+
+Tagline: "Committed to The Total Development of The Student"
+
+About SEAIT — A Tuition-Free Institution
+
+South East Asian Institute of Technology, Inc. (SEAIT) is a private higher education institution based in Tupi, South Cotabato, Philippines, renowned for its commitment to providing tuition-free education for all college degree programs. Established in February 2006 by Hon. Reynaldo S. Tamayo Jr. and Mrs. Rochelle P. Tamayo, the institution was founded on the belief that education should be accessible to all, regardless of financial background.
+
+SEAIT's commitment extends beyond affordability — it is equally focused on delivering high-quality instruction and producing globally competent, values-driven graduates prepared to face the demands of an ever-evolving world.
+
+From its early beginnings as a vocational school, SEAIT has developed into a full-fledged academic hub offering a wide range of programs.
+
+Key Stats:
+
+2006 — Founded
+100% — Tuition Fee (free)
+Modern Labs & Facilities
+Strong Student Support Services
+Mission
+
+To produce competent, community-oriented, and globally competitive individuals through holistic education.
+
+Vision
+
+A premier institution that provides quality education and produces globally empowered individuals.
+
+Core Values
+Service – Dedicated to exceptional service for students, community, and stakeholders
+Excellence – Pursuing the highest standards of academic quality and innovation
+Accountability – Responsibility, transparency, and ethical practice
+Innovation – Creativity and forward-thinking approaches to challenges
+Teamwork – Collaboration and collective effort toward shared success
+Brief History
+
+The founders, Reynaldo S. Tamayo Jr. and Rochelle P. Tamayo — both former Department of Science and Technology (DOST) scholars — established SEAIT as a way to give back to the community. What began as a vocational school offering TESDA programs has grown into a full academic institution offering degree programs across multiple colleges.
+
+Milestone Timeline:
+
+2006 – SEAIT founded; began offering TESDA 2-Year Diploma programs (Computer Programming NC IV, Computer Hardware Servicing NC II)
+2007 – TESDA granted 2-year diploma in Hotel and Restaurant Management
+2008 – CHED granted BS in Information Technology
+2009 – CHED granted BS in Hotel Management and BS in Business Administration (Marketing Management)
+2011 – CHED granted BSEd (English & Math), BEEd, and BS Civil Engineering
+2013 – BS Criminology introduced
+2014 – CHED granted BS Agriculture
+2016 – DepEd granted recognition for the K-12 Program
+2019 – BS Fisheries and BS Early Childhood Education added
+2020 – CHED granted BSEd (Social Studies), BS Social Work, BS Agricultural Technology
+2022 – CHED expansion: BS Agriculture (Animal & Crop Science), BSEd (Filipino & General Science)
+2023 – Bachelor of Technology & Livelihood Education (ICT) added to CTE programs
+Campus Facilities
+Science Laboratories
+Computer Laboratories
+Learning Center / Library
+Guidance Office
+Sports Facilities
+Campus Canteen
+School Dormitory
+Audio-Visual Room
+Kitchen & THM Simulation Room (Tourism & Hospitality)
+Speech Laboratory
+Agricultural Extensions (Tucalabong & MAPECON farm sites)
+Academic Programs (by College)
+
+College of Agriculture and Fisheries (5 programs)
+
+BS Agriculture – Animal Science
+BS Agriculture – Crop Science
+BS Agriculture – Horticulture
+BS Agriculture – Plant Breeding and Genetics
+BS Fisheries
+
+College of Criminal Justice Education (1 program)
+
+BS Criminology
+
+College of Business and Good Governance (6 programs)
+
+Bachelor of Public Administration
+BS Accounting Information Systems
+BS Hospitality Management
+BS Social Work
+BS Business Administration – Marketing Management
+BS Tourism Management
+
+College of Information and Communication Technology (2 programs)
+
+BS Information Technology
+BS Information Technology – Business Analytics
+
+Department of Civil Engineering (1 program)
+
+BS Civil Engineering – Structural Engineering
+
+College of Teacher Education (9 programs)
+
+BSEd – English
+BSEd – Filipino
+BSEd – Mathematics
+BSEd – Science
+BSEd – Social Studies
+Bachelor of Technology & Livelihood Education – ICT
+Bachelor of Elementary Education
+Bachelor of Secondary Education
+Bachelor of Early Childhood Education
+
+TESDA Programs (6 programs)
+
+Cookery NC II
+Driving NC II
+Electrical Installation and Maintenance NC II
+Heavy Equipment Operation – Hydraulic Excavator NC II
+Heavy Equipment Operation – Wheel Loader NC II
+Shielded Metal Arc Welding NC II
+
+K–12 Programs (4 levels)
+
+Senior High School (Strands: ABM, GAS, HUMSS, STEM)
+Junior High School
+Elementary
+Kindergarten
+Admission Process
+
+Basic Education (K–10):
+
+Application Form
+Required Documents (birth certificate, report cards, academic records)
+Assessment Test
+Interview (student & parent)
+Enrollment
+
+Senior High School:
+
+Application Form (with strand preference)
+Academic Records (Grade 10 completion, report cards)
+Aptitude Test / Career Assessment
+Strand Selection
+Enrollment + Orientation
+
+College:
+
+Application Form (program preference)
+Academic Requirements (SHS diploma, transcript, certificates)
+SEAIT College Admission Test (SCAT)
+Interview & Skills Assessment
+Enrollment + Freshman Orientation
+
+TESDA Program: Separate admission requirements apply.
+
+Contact Information
+
+Main Campus Address:
+National Highway, Purok 7, Crossing Rubber, Tupi, South Cotabato, 9505, Philippines
+
+Admissions Office: (083) 226 1603 — Mon–Fri, 8:00 AM–5:00 PM
+Registrar: (083) 226 1602
+General Inquiries: (083) 226-1203 (Student Services)
+Email (Admissions/Registrar): seaitinc@yahoo.com
+Email (General/MIS): info@seait.edu.ph / support@seait.edu.ph
+
+Office Hours: Monday–Friday, 8:00 AM–5:00 PM
+
+Suggested Landing Page CTAs (based on their site structure)
+"Start Pre-registration" → links to a pre-registration form
+"Download Admission Guide"
+"Schedule a Campus Visit / Virtual Tour"
+"Explore Academic Programs"
+
+A couple of notes for your enrollment system build:
+
+Logo: available at https://seait.edu.ph/assets/images/school_logo_1757486512.png — check with SEAIT before reusing their exact logo/branding assets, since those are their intellectual property.
+Some contact numbers/emails on the site are department-specific (Registrar, Admissions, Scholarship Office, Guidance, Clinic, etc.) — let me know if you want the full department directory formatted as well, since the page has an extensive contacts list by office (HR, Research Office, Safety & Security, Sports, THM Dept, etc.).
