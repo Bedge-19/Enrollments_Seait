@@ -120,48 +120,172 @@ require_once __DIR__ . '/../includes/navbar.php';
         <div class="card shadow-sm mb-4">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 fw-bold text-dark"><i class="fas fa-id-card text-primary me-2"></i>Digital ID Card Preview</h6>
-                <span class="badge bg-light text-dark border">CR80 Official Format</span>
+                <span class="badge bg-light text-dark border"><i class="fas fa-hand-pointer"></i> Click to Flip</span>
             </div>
-            <div class="card-body text-center py-4 bg-light">
-                <div class="d-inline-block text-start" style="width: 320px; height: 500px; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); background: linear-gradient(180deg, #0f2b48 0%, #0d47a1 28%, #ffffff 28.5%, #ffffff 92%, #0d47a1 92%); border: 1px solid #cbd5e1; display: flex; flex-direction: column;">
-                    <!-- Front Header -->
-                    <div class="text-center text-white p-2">
-                        <img src="<?= BASE_URL ?>/photo/logo.jpg" alt="SEAIT" style="width: 40px; height: 40px; border-radius: 50%; background: white; padding: 2px; margin-bottom: 4px;">
-                        <div style="font-family:'Montserrat',sans-serif; font-size: 9.5px; font-weight: 800; text-transform: uppercase;">South East Asian Institute of Technology, Inc.</div>
-                        <div style="font-size: 7px; color: #fde047; font-weight: 600;">STUDENT IDENTIFICATION CARD</div>
-                    </div>
-
-                    <!-- Front Body -->
-                    <div class="p-3 text-center d-flex flex-column align-items-center flex-grow-1">
-                        <div style="width: 100px; height: 100px; border-radius: 12px; border: 3px solid #0d47a1; background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 800; margin-bottom: 8px;">
-                            <?= strtoupper(substr($student['FirstName'] ?? 'S', 0, 1) . substr($student['LastName'] ?? 'T', 0, 1)) ?>
+            <div class="card-body text-center py-4 bg-light" style="perspective: 1000px;">
+                <style>
+                    .id-card-scene {
+                        width: 320px;
+                        height: 490px;
+                        margin: 0 auto;
+                        cursor: pointer;
+                        perspective: 1000px;
+                    }
+                    .id-card-container {
+                        width: 100%;
+                        height: 100%;
+                        position: relative;
+                        transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+                        transform-style: preserve-3d;
+                    }
+                    .id-card-scene.is-flipped .id-card-container {
+                        transform: rotateY(180deg);
+                    }
+                    .id-card-face {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        -webkit-backface-visibility: hidden;
+                        backface-visibility: hidden;
+                        border-radius: 12px;
+                        box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+                        overflow: hidden;
+                        border: 1px solid rgba(0,0,0,0.1);
+                    }
+                    .id-card-front {
+                        background: linear-gradient(160deg, #6b9a33 0%, #b2d644 35%, #92c53a 70%, #7ab22b 100%);
+                        display: flex;
+                        flex-direction: column;
+                    }
+                    .id-card-front::after {
+                        content: '';
+                        position: absolute;
+                        inset: 0;
+                        background: radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 60%);
+                        pointer-events: none;
+                    }
+                    .id-card-back {
+                        background: #ffffff;
+                        transform: rotateY(180deg);
+                        display: flex;
+                        flex-direction: column;
+                        padding: 16px;
+                    }
+                </style>
+                
+                <div class="id-card-scene" onclick="this.classList.toggle('is-flipped')">
+                    <div class="id-card-container">
+                        <!-- Front Face -->
+                        <div class="id-card-face id-card-front">
+                            <div style="display:flex; padding: 18px 16px 12px 16px; align-items: flex-start; gap: 8px;">
+                                <img src="<?= BASE_URL ?>/photo/logo.jpg" alt="Logo" style="width:50px; height:50px; border-radius:50%; background:white; padding:2px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); flex-shrink:0; position:relative; z-index:2;">
+                                <div style="text-align:center; color: #ffeb3b; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); position:relative; z-index:2;">
+                                    <div style="font-family: 'Times New Roman', Times, serif; font-size: 16px; font-weight: bold; line-height: 1.1; margin-bottom:2px;">South East Asian<br>Institute of Technology, Inc.</div>
+                                    <div style="font-size: 5px; font-family: Arial, sans-serif; letter-spacing: 0.5px; opacity: 0.9;">NATIONAL HIGHWAY, BRGY. CROSSING RUBBER, TUPI, SOUTH COTABATO<br>SEC REG NO: CN200628156</div>
+                                </div>
+                            </div>
+                            
+                            <div style="display:flex; justify-content: space-between; padding: 12px 18px; flex:1; position:relative; z-index:2;">
+                                <!-- Photo & Signature -->
+                                <div style="width: 48%; display:flex; flex-direction:column;">
+                                    <div style="height: 170px; background: #fff; border: 1px solid rgba(0,0,0,0.15); display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                                        <img src="https://ui-avatars.com/api/?name=<?= urlencode($student['FirstName'] . ' ' . $student['LastName']) ?>&background=e2e8f0&color=333&size=200" style="width:100%; height:100%; object-fit:cover;">
+                                    </div>
+                                    <div style="height: 45px; background: rgba(255,255,255,0.4); border: 1px solid rgba(0,0,0,0.15); border-top:none; display:flex; align-items:center; justify-content:center; position:relative;">
+                                        <span style="font-family: 'Brush Script MT', cursive, serif; font-size: 24px; color: #000080; transform: rotate(-5deg);"><?= substr($student['FirstName'] ?? 'S', 0, 1) ?>. <?= explode(' ', $student['LastName'] ?? 'T')[0] ?></span>
+                                    </div>
+                                </div>
+                                
+                                <!-- QR & ID -->
+                                <div style="width: 45%; display:flex; flex-direction:column; align-items:center; justify-content: flex-start; padding-top: 5px;">
+                                    <div style="width: 100px; height: 100px; background: white; padding: 4px; margin-bottom: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=<?= urlencode($student['StudentNo'] ?? '') ?>" style="width:100%; height:100%;">
+                                    </div>
+                                    <div style="font-weight: 800; color: #004d00; font-size: 16px; font-family: Arial, sans-serif; letter-spacing: 0.5px;">
+                                        <?= e($student['StudentNo'] ?? '') ?>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="padding: 8px 18px 24px 18px; color: #003300; font-family: Arial, sans-serif; text-align: left; position:relative; z-index:2;">
+                                <?php 
+                                    $middleInit = !empty($student['MiddleName']) ? substr($student['MiddleName'],0,1).'.' : ''; 
+                                ?>
+                                <div style="font-weight: 700; font-size: 20px; line-height: 1.1; margin-bottom:2px;"><?= e($student['FirstName'] ?? '') ?> <?= $middleInit ?></div>
+                                <div style="font-weight: 900; font-size: 26px; text-transform: uppercase; line-height: 1.1; letter-spacing: -0.5px;"><?= e($student['LastName'] ?? '') ?></div>
+                                <div style="font-size: 11px; font-weight: 600; margin-top: 8px; border-top: 1px solid rgba(0,51,0,0.25); padding-top: 6px;">
+                                    <?= e($student['ProgramName'] ?? '') ?>
+                                </div>
+                            </div>
                         </div>
 
-                        <div style="background: #1e293b; color: white; font-family:'Montserrat',sans-serif; font-size: 12px; font-weight: 800; padding: 2px 12px; border-radius: 14px; margin-bottom: 6px;">
-                            <?= e($student['StudentNo']) ?>
+                        <!-- Back Face -->
+                        <div class="id-card-face id-card-back">
+                            <div style="border: 1px solid #000; font-family: Arial, sans-serif; font-size: 11px; margin-bottom: 12px; border-radius: 2px;">
+                                <div style="display:flex; border-bottom: 1px solid #000; background: #e5e7eb;">
+                                    <div style="width: 35%; padding: 4px 6px; border-right: 1px solid #000; font-weight: bold;">School Year</div>
+                                    <div style="width: 65%; padding: 4px 6px; font-weight: bold;">Validation</div>
+                                </div>
+                                <div style="display:flex; border-bottom: 1px solid #000;">
+                                    <div style="width: 35%; padding: 4px 6px; border-right: 1px solid #000;">2024-2025</div>
+                                    <div style="width: 65%; padding: 2px 6px; display:flex; align-items:center;">
+                                        <span style="background:#e9d5ff; color:#581c87; font-weight:bold; font-size:10px; padding:2px 6px; border-radius:2px;">2nd Semester 2024-2025</span>
+                                    </div>
+                                </div>
+                                <div style="display:flex; border-bottom: 1px solid #000;">
+                                    <div style="width: 35%; padding: 4px 6px; border-right: 1px solid #000;">2025-2026</div>
+                                    <div style="width: 65%; padding: 2px 6px; display:flex; align-items:center;">
+                                        <span style="background:#bae6fd; color:#0369a1; font-weight:bold; font-size:10px; padding:2px 6px; border-radius:2px;">2nd Semester 2025-2026</span>
+                                    </div>
+                                </div>
+                                <div style="display:flex; border-bottom: 1px solid #000;">
+                                    <div style="width: 35%; padding: 4px 6px; border-right: 1px solid #000;">2026-2027</div>
+                                    <div style="width: 65%; padding: 2px 6px; display:flex; align-items:center;">
+                                        <span style="background:#fed7aa; color:#c2410c; font-weight:bold; font-size:10px; padding:2px 6px; border-radius:2px;">1st Semester 2026-2027</span>
+                                    </div>
+                                </div>
+                                <div style="display:flex; border-bottom: 1px solid #000; min-height: 24px;">
+                                    <div style="width: 35%; padding: 4px 6px; border-right: 1px solid #000;">2027-2028</div>
+                                    <div style="width: 65%; padding: 4px 6px;"></div>
+                                </div>
+                                <div style="display:flex; min-height: 24px;">
+                                    <div style="width: 35%; padding: 4px 6px; border-right: 1px solid #000;">2028-2029</div>
+                                    <div style="width: 65%; padding: 4px 6px;"></div>
+                                </div>
+                            </div>
+                            
+                            <div style="border: 1px solid #000; font-family: Arial, sans-serif; font-size: 11px; margin-bottom: 12px; display:flex; text-align:center; border-radius: 2px;">
+                                <div style="width: 50%; border-right: 1px solid #000;">
+                                    <div style="background: #334155; color: white; padding: 4px; font-weight: bold;">BIRTH DATE</div>
+                                    <div style="padding: 6px 4px; font-weight: bold; font-size: 12px;"><?= formatDate($student['BirthDate'] ?? 'Nov 19, 2004') ?></div>
+                                </div>
+                                <div style="width: 50%;">
+                                    <div style="background: #334155; color: white; padding: 4px; font-weight: bold;">BLOOD TYPE</div>
+                                    <div style="padding: 6px 4px; font-weight: bold; font-size: 12px;"><?= e($student['BloodType'] ?? '') ?></div>
+                                </div>
+                            </div>
+
+                            <div style="border: 1px solid #000; font-family: Arial, sans-serif; margin-bottom: 16px; text-align:center; border-radius: 2px;">
+                                <div style="background: #475569; color: white; padding: 5px; font-weight: bold; font-size: 10px;">IN CASE OF EMERGENCY PLEASE CONTACT</div>
+                                <div style="padding: 8px 6px;">
+                                    <div style="font-weight: bold; font-size: 14px; margin-bottom: 2px;"><?= e($student['GuardianName'] ?? 'Guardian Name') ?></div>
+                                    <div style="font-size: 11px; margin-bottom: 2px; color: #333;"><?= e($student['ProfileAddress'] ?? 'Student Address') ?></div>
+                                    <div style="font-weight: bold; font-size: 13px;"><?= e($student['GuardianContactNo'] ?? '0912-345-6789') ?></div>
+                                </div>
+                            </div>
+                            
+                            <div style="font-family: Arial, sans-serif; font-size: 10.5px; text-align: justify; line-height: 1.4; color: #1e293b; padding: 0 4px;">
+                                This is to certify that the person whose name and picture appear here is a bonafide student of South East Asian Institute of Technology, Inc.
+                            </div>
+
+                            <div style="text-align: center; margin-top: auto; padding-bottom: 10px;">
+                                <div style="font-family: 'Brush Script MT', cursive, serif; font-size: 38px; color: #1e1b4b; margin-bottom: -18px; transform: rotate(-3deg);">john</div>
+                                <div style="font-weight: bold; font-family: Arial, sans-serif; font-size: 12px; border-bottom: 1px solid #000; display: inline-block; padding: 0 16px;">
+                                    ENGR. JOHN PAUL S. TAMAYO, MCE-SG
+                                </div>
+                                <div style="font-family: Arial, sans-serif; font-size: 9px; margin-top: 3px; font-weight: 600; letter-spacing: 0.5px;">SCHOOL PRESIDENT</div>
+                            </div>
                         </div>
-
-                        <div style="font-family:'Montserrat',sans-serif; font-size: 13px; font-weight: 800; text-transform: uppercase; color: #0f172a; margin-bottom: 2px;">
-                            <?= e($student['FirstName'] . ' ' . $student['LastName']) ?>
-                        </div>
-
-                        <div style="font-size: 9px; font-weight: 700; color: #0d47a1; text-transform: uppercase; margin-bottom: 6px; line-height: 1.2;">
-                            <?= e($student['ProgramName']) ?>
-                        </div>
-
-                        <span class="badge <?= $isNewOrTransferee ? 'bg-info text-dark' : 'bg-secondary' ?>" style="font-size: 8px;">
-                            <?= e($student['TypeName']) ?> STUDENT &bull; A.Y. 2026-2027
-                        </span>
-
-                        <div class="mt-auto pb-1 text-center w-100">
-                            <div style="font-family: monospace; font-size: 14px; letter-spacing: 4px; color: #000;">||| |||| | |||||| ||||</div>
-                            <small class="text-muted" style="font-size: 7.5px;">*<?= e($student['StudentNo']) ?>*</small>
-                        </div>
-                    </div>
-
-                    <!-- Front Footer -->
-                    <div class="text-white text-center py-1" style="background: #0d47a1; font-size: 7px; font-weight: 700; text-transform: uppercase;">
-                        Official Property of SEAIT &bull; 2026-2027
                     </div>
                 </div>
             </div>

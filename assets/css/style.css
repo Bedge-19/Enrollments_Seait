@@ -8,22 +8,25 @@
 
 /* ── Design Tokens ── */
 :root {
-    --primary: #ff8c00;
-    --primary-dark: #904d00;
-    --primary-light: #ffb77d;
-    --primary-container: #ffdcc3;
-    --primary-bg: #fff5e6;
+    --primary: #FF8C00;
+    --primary-dark: #CC7000;
+    --primary-light: #FFB77D;
+    --primary-container: #FFDCC3;
+    --primary-bg: #FFF5E6;
     --on-primary: #ffffff;
 
-    --surface: #f8f9fa;
-    --surface-dim: #d9dadb;
-    --surface-container: #edeeef;
-    --surface-high: #e7e8e9;
-    --surface-highest: #e1e3e4;
-    --on-surface: #191c1d;
-    --on-surface-variant: #564334;
-    --outline: #897362;
-    --outline-variant: #ddc1ae;
+    --accent: #0F4C81;
+    --accent-dark: #0A365C;
+
+    --surface: #F8FAFC;
+    --surface-dim: #F1F5F9;
+    --surface-container: #E2E8F0;
+    --surface-high: #CBD5E1;
+    --surface-highest: #94A3B8;
+    --on-surface: #0F172A;
+    --on-surface-variant: #475569;
+    --outline: #94A3B8;
+    --outline-variant: #CBD5E1;
     --white: #ffffff;
 
     --tertiary: #00658f;
